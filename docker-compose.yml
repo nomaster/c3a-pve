@@ -1,0 +1,24 @@
+version: "3.7"
+
+networks:
+  bridge:
+    external: true
+  web:
+    external: true
+
+services:
+  nginx:
+    build: nginx
+    image: localhost:5000/c3a/pve/nginx
+    dns_search: c3a.koeln.ccc.de
+    networks:
+      - bridge
+      - web
+    ports:
+      - 8080
+    deploy:
+      labels:
+        - "traefik.frontend.rule=Host:pve.nomaster.cc"
+        - "traefik.enable=true"
+        - "traefik.docker.network=web"
+        - "traefik.port=8080"
